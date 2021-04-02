@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 
-import { Wrapper } from './styles';
+import { Wrapper, TransactionDate, Value, Comment } from './styles';
 
-const Transaction = ({ transaction }) => (
-    <Wrapper value={transaction.value}>
-         Label: {transaction.label}
-         <p>Value: {transaction.value}</p>
-         <br/>
-     </Wrapper>
+const Transaction = ({ transaction: { value, date, comment} }) => (
+    <Wrapper value={value}>
+        <TransactionDate>{date}</TransactionDate>         
+        <Value>{value.toFixed(2)}</Value>
+        <Comment>{comment}</Comment>
+    </Wrapper>
 )
 Transaction.propTypes = {
     transaction: PropTypes.shape({
