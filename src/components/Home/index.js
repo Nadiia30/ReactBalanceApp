@@ -7,7 +7,9 @@ import ErrorBoundary from '../ErrorBoundary';
 
 import { Wrapper } from './styles';
 
-let id = 0;
+import { getItems, addItem } from '../../utils/indexdb';
+
+
 
 class Home extends Component {
     constructor(){
@@ -18,18 +20,31 @@ class Home extends Component {
         }
       
     }
-      
+    
+    componentDidMount(){
+        getItems().then((transactions) => {
+            this.setState({
+                transactions
+            })
+        }).catch((e) => {
+            debugger
+        })
+
+    }
     onChange = ({value, date, comment}) => {
+        const transaction = {
+            value: +value,
+            comment,
+            date,
+            id: Date.now()
+        }
         this.setState((prevState) => ({
             balance: prevState.balance + Number(value),
-            transactions: [{
-                value: +value,
-                comment,
-                date,
-                id: ++id
-            },
+            transactions: [
+                transaction,                
             ...prevState.transactions]
         }))
+        addItem(transaction)
     }
     render(){
         
